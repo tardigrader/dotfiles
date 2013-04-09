@@ -17,11 +17,17 @@ set runtimepath=~/.vim,/var/lib/vim/addons,/usr/share/vim/vimfiles,/usr/share/vi
 set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
 " vim: set ft=vim :
 
+" SEARCHING
 " Make case distinctions matter ONLY if UPPERCASE
 set ignorecase
 set smartcase
+" Highlight search results
+set hlsearch
 
 set wildmenu
+
+" When page starts to scroll keep the cursor two lines from top/bottom
+set scrolloff=2
 
 " Uncomment the following to have Vim load indentation rules and plugins
 " according to the detected filetype.
