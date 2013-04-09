@@ -29,6 +29,9 @@ set wildmenu
 " When page starts to scroll keep the cursor two lines from top/bottom
 set scrolloff=2
 
+" Programming filetype specific
+au FileType ruby setlocal sts=2 sw=2	" Enable width of 2 for ruby tabbing
+
 " Uncomment the following to have Vim load indentation rules and plugins
 " according to the detected filetype.
 if has("autocmd")
