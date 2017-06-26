@@ -9,6 +9,7 @@ alias ls='colorls -CFG'
 alias lsa='ls -a'
 alias ll='ls -l'
 alias l='ls -la'
+alias lsof=fstat
 
 
 alias whatsmyip='w3m -dump checkip.dyndns.org'
