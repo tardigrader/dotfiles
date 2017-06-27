@@ -19,4 +19,5 @@
 	whodunnit = blame                           # Who wrote what?
 	alias = config --get-regexp alias           # List git aliases
 	donetoday = log --since=00:00:00 --all --no-merges --oneline --author=krr@devio.us  # What have I been up to today?
-	graph = log --graph --all --decorate --stat --date=iso  # Nice complex logs
+	graph = log --graph --all --decorate --stat --date=iso               # Nice complex logs
+	ignore = "!gi() { curl -L -s https://www.gitignore.io/api/$@ ;}; gi" # Use gitignore.io for sweet .gitignore files
