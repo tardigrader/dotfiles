@@ -1,0 +1,22 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+#	name = Krister Lofgren
+#	email = krr@wishbringer.(none)
+[user]
+	name = Krister Löfgren
+	email = krr@devio.us
+[credential]
+	helper = cache
+[color]
+  diff = auto
+  status = auto
+  branch = auto
+  ui = auto
+[alias]
+	oneline = log --oneline --pretty=format:'%C(yellow)%h%C(reset)%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%C(reset)'
+	highscore = shortlog -sn --all --no-merges  # Who has commited most?
+	whodunnit = blame                           # Who wrote what?
+	alias = config --get-regexp alias           # List git aliases
+	donetoday = log --since=00:00:00 --all --no-merges --oneline --author=krr@devio.us  # What have I been up to today?
+	graph = log --graph --all --decorate --stat --date=iso  # Nice complex logs
