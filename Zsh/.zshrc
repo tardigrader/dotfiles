@@ -1,5 +1,19 @@
-# The following lines were added by compinstall
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile_zsh
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory extendedglob notify
+unsetopt beep
 
+# Keyboard shortcuts, all else as VIM
+
+bindkey '^A' beginning-of-line	# as per Emacs
+bindkey '^E' end-of-line        # as per Emacs
+bindkey '^P' up-line-or-search
+bindkey -v
+
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
 zstyle ':completion:*' format 'The Prince of Darkness is completing %d for you'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' list-colors ''
@@ -8,32 +22,41 @@ zstyle ':completion:*' menu select=8
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 zstyle ':completion:*' verbose true
 zstyle :compinstall filename '/home/krr/.zshrc'
+autoload -Uz compinio
 
-autoload -Uz compinit
+autoload -U compinit
 compinit
 # End of lines added by compinstall
-# Lines configured by zsh-newuser-install
-HISTFILE=~/.histfile
-HISTSIZE=2500
-SAVEHIST=10000
-unsetopt autocd
-# End of lines configured by zsh-newuser-install
-
-# Keyboard shortcuts, all else as VIM
-
-bindkey '^A' beginning-of-line  # as per Emacs
-bindkey '^E' end-of-line        # as per Emacs
-bindkey '^P' up-line-or-search
-
-bindkey -v
-
+#
 autoload -U colors && colors
-PROMPT="%n@$(hostname) %{$fg[blue]%}($(uname -s)/%{$fg[red]%}$(uname -m)%{$fg[blue]%}) (%!) %{$fg[green]%}%~> %{$reset_color%}"
+PROMPT="%n@%m %{$fg[blue]%}($(uname -sr)) (%!) %{$fg[green]%}%~> "
+
+source $HOME/.dynamic-colors/completions/dynamic-colors.zsh  
+source $HOME/.zsh_completions
 
 # Aliases
-alias ls='ls -G'
-alias lsa='ls -a'
-alias whatsmyip='lynx -dump checkip.dyndns.org'
+# Check for aliases in .zsh_aliases or .aliases. /Krr
+
+if [[ -f $HOME/.zsh_aliases ]] then
+        print "Sourcing $HOME/.zsh_aliases. `grep -c alias ~/.zsh_aliases` \
+aliases added." 
+        source ~/.zsh_aliases 
+        print "Total command aliases: `alias | wc -l | sed 's/ //g'`."
+elif [[ -f $HOME/.aliases ]] then
+        print "Sourcing $HOME/.aliases. `grep -c alias ~/.aliases` \
+aliases added."
+        source ~/.aliases
+        print "Total command aliases: `alias | wc -l | sed 's/ //g'`."
+elif [[ -f $HOME/.aliases ]] then
+else
+        print "No alias file to be sourced."
+fi
+
 export EDITOR="vim"
 export PAGER=less
 setopt VI
+
+
+export PrG_PATH=ftp://ftp.eu.openbsd.org/pub/OpenBSD/6.1/packages/`machine -a`/
+
+export GPG_TTY=$(tty)
