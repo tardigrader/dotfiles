@@ -7,7 +7,7 @@
 	name = Krister Löfgren
 	email = krr@devio.us
 [credential]
-	helper = cache
+	helper = cache --timeout=3600
 [color]
   diff = auto
   status = auto
