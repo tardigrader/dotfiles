@@ -1,6 +1,48 @@
-alias lsa='ls -aF --color=auto'
-alias lshid='ls -dF .*'
-alias whatsmyip='lynx -dump checkip.dyndns.org'
-alias portar='netstat -atun'
-alias ls='ls -F --color=auto  --group-directories-first'
+### -------------- ###
+### Custom aliases ###
+### -------------- ###
 
+
+### Files, filesystems and directories ###
+
+# Enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    eval "`dircolors -b`"
+    alias ls='ls --color=auto'
+    alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+alias df='df -hT'
+alias dirtree="ls -R | grep :*/ | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'"       # File tree of directories only
+
+alias ls='ls -F --color=auto  --group-directories-first'
+alias lsa='ls -aF --color=auto'
+alias lsdirs='ls -FlA | grep :*/'   # Show directories only
+alias lsexe='ls -FlA | grep \*'     # Show executables only
+alias lshid='ls -dF .*'
+alias mount='mount | column -t'
+alias path="echo $PATH | tr -s ':' '\n'" # Pretty print $PATH
+
+
+# Change to root of git project
+alias groot='cd $(git rev-parse --show-cdup)' 
+
+
+### Network aliases ###
+
+alias portar='netstat -atun'
+alias whatsmyip='lynx -dump checkip.dyndns.org'
+alias pingalocal='echo 192.168.0.{1..255} | xargs -n1 ping -c1'
+
+
+### Misc aliases ###
+
+alias freem='egrep "Mem|Cache|Swap" /proc/meminfo' # Nice way to see memory usage
+alias fingerprints='ssh-keygen -lv -f ~/.ssh/known_hosts'
+alias topcommands='cut -f1 -d " " ~/.bash_history | sort | uniq -c | sort -nr | head -12'
+alias vimsplit='vim -O '        # Edit multiple files split horizontally 
