@@ -1,13 +1,13 @@
-##dotfiles
+#dotfiles
 
 Customizations I need to remember.
 
-### Bash
+## Bash
 -
 -
 
-### Zsh
+## Zsh
 -
 -
 
-### BSD-specific
+## BSD-specific
