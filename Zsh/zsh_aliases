@@ -9,6 +9,7 @@ alias lsa='ls -a'
 alias ll='ls -l'
 alias l='ls -la'
 alias path="echo $PATH | tr -s ':' '\n'" # Pretty print $PATH
+alias mount='mount | column -t'
 
 
 ### Network aliases ###
