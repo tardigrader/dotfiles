@@ -1,0 +1,24 @@
+### Files and file systems
+
+alias df='df -h'
+alias lsdirs='ls -FlA | grep :\*/'  # Show directories only
+alias lsexe='ls -FlA | grep \*'     # Show executables only
+alias lshid='ls -dF .*'             # Show hidden files only
+alias ls='colorls -CFG'
+alias lsa='ls -a'
+alias ll='ls -l'
+alias l='ls -la'
+
+
+### Network aliases ###
+
+alias whatsmyip='w3m -dump checkip.dyndns.org'
+
+### Misc aliases ###
+
+alias fingerprints='ssh-keygen -lv -f ~/.ssh/known_hosts'
+alias free='echo "`sysctl -n hw.physmem` / (1024 * 1024)" | bc'
+alias pdf='apvlv'
+alias quitter='identicurse'
+alias vi='vim'
+alias vimsplit='vim -O '    # Edit multiple files split horizontally 
