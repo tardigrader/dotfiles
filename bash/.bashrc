@@ -2,15 +2,20 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+# Check if we've got w3m or any other text-based web browser.
+if $(type -P w3m >/dev/null 2>&1); then
+  export TEXTBROWSER=$(type -P w3m)
+elif $(type -P lynx >/dev/null 2>&1); then
+  export TEXTBROWSER=$(type -P lynx)
+else
+    export TEXTBROWSER=""
+fi
+
 ####### PROMPT ########
 
-# Set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-esac
-
 # Set a nice prompt
-if [ -x ~/.bash.d/bash_prompt_colors ]; then
-    source ~/.bash_prompt_colors
+if [ -f ~/.bash.d/bash_prompt_colors ]; then
+    source ~/.bash.d/bash_prompt_colors
     export PROMPT_DIRTRIM=1
     export PS1="\[$txtylw\][\A]\[$txtcyn\][\u@\h]:\[$txtgrn\] \w-\$\[\e[0m\]> "
 fi
@@ -44,7 +49,6 @@ shopt -s hostcomplete
 # Load rbenv automatically by appending
 
 eval "$(rbenv init -)"
-
 
 
 source /usr/share/bash-completion/completions/pass
