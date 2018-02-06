@@ -2,6 +2,10 @@
 ### Custom aliases ###
 ### -------------- ###
 
+# Source localized aliases if available
+if [ -x .~/.bash.d/bash_aliases.this ]; then
+    source ~/.bash.d/bash_aliases.this
+fi
 
 ### Files, filesystems and directories ###
 
@@ -20,11 +24,11 @@ fi
 alias df='df -hT'
 alias dirtree="ls -R | grep :*/ | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'"       # File tree of directories only
 
-alias ls='ls -F --color=auto  --group-directories-first'
-alias lsa='ls -aF --color=auto'
-alias lsdirs='ls -FlA | grep :*/'   # Show directories only
-alias lsexe='ls -FlA | grep \*'     # Show executables only
-alias lshid='ls -dF .*'
+alias ls='ls --color=auto -F --group-directories-first'
+alias lsa='ls --color=auto -aF'
+alias lsdirs='ls --color=auto -FlA | grep :*/'   # Show directories only
+alias lsexe='ls --color=auto -FlA | grep \*'     # Show executables only
+alias lshid='ls --color=auto -dF .*'
 alias mount='mount | column -t'
 alias path="echo $PATH | tr -s ':' '\n'" # Pretty print $PATH
 
