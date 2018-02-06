@@ -40,8 +40,6 @@ nmap <Leader>l :set list!<CR>       " Toggle showing invisible characters on/off
 map <Leader>/ :set nohlsearch!<CR>  " Toggle highlightning of search results
 map <Leader>1 :set number!<CR>
 map <F3> :set number!<CR>
-nmap <M->q  gq
-vmap <alt>q gqap
 
 " Emacs-like stuff
 imap <C-g> <Esc>                    " In insert mode only
@@ -49,6 +47,11 @@ map < gg                          " Alt-<   Top of file, like in Emacs
 map > G                           " Alt->   Bottom of file, like in Emacs.
 map <C-x><C-f> :NERDTreeFind<CR>    " Open file
 imap <C-x><C-F> <ESC>:NERDTreeFind<CR>   " Open file in insert mode
+map <C-l> zz                        " Center current line in the middle
+imap <C-l> <ESC>zzi                 " Center current line in the middle, ins mode
+map q gql                         " Rewrap text
+vmap q gql                        " Rewrap text in visual mode
+imap q <Esc>gqli                  " Rewrap text in insert mode
 
 "map <C-x><C-s> :w<CR><C-q><CR>      " Save file. Not possible because of XOFF?
 
@@ -67,14 +70,14 @@ syntax enable           " Turn on syntax highlighting allowing local overrides
 
 "-- Statusbar---------------------------------------------------------------
 if has("statusline") && !&cp
-    set laststatus=2      " Always show the status bar
-    " Start the status line
-    set statusline=%f\ %m\ %r
-    set statusline+=Line:%l/%L[%p%%]
-    set statusline+=\ Col:%v
-    set statusline+=\ Buf:#%n
-    set statusline+=[%b][0x%B]
-    set statusline+=\ \ <F2>\ NERDt\ <F3>\ LineNrs\ <F4>\ Tagbar
+  set laststatus=2                  " Always show the status bar
+  " Start the status line
+  set statusline=%f\ %m\ %r
+  set statusline+=Line:%l/%L[%p%%]
+  set statusline+=\ Col:%v
+  set statusline+=\ Buf:#%n
+  set statusline+=[%b][0x%B]
+  set statusline+=\ \ <F2>\ NERDt\ <F3>\ LineNrs\ <F4>\ Tagbar
 endif
 
 "----------------------------------------------------------------------------
@@ -83,82 +86,85 @@ set wrap
 set linebreak
 set textwidth=79
 set formatoptions=qrn1
-set colorcolumn=85      " Show colored column at col 85. THAT'S A TOO LONG LINE!
-set number              " Show line numbers
-set ruler               " Show line and column number
+set colorcolumn=85                  " Show colored column at col 85.
+                                    "THAT'S A TOO LONG LINE!
+set number                          " Show line numbers
+set ruler                           " Show line and column number
 
+set tabstop=4                       " A tab is four spaces
+set shiftwidth=2                    " An autoindent (with <<) is two spaces
+set expandtab                       " Use spaces, not tabs
 
-set tabstop=4           " A tab is four spaces
-set shiftwidth=2        " An autoindent (with <<) is two spaces
-set expandtab           " Use spaces, not tabs
-
-set scrolloff=2         " When page starts to scroll keep the cursor two 
-                        "lines from top/bottom 
+set scrolloff=2                     " When page starts to scroll keep the
+                                    "cursor two lines from top/bottom
 
 " List chars
-set list                        " Show invisible characters
-set listchars=""                " Reset the listchars
-set listchars=tab:▸\ ,eol:¬     " A tab should display as "▸"
-set listchars+=trail:.          " Show trailing spaces as dots
-set listchars+=extends:>        " The character to show in the last column when 
-                                " wrap is off and the line continues beyond the 
-                                " right of the screen
-set listchars+=precedes:<       " The character to show in the last column when
-                                " wrap is off and the line continues beyond the 
-                                " left of the screen
+set list                            " Show invisible characters
+set listchars=""                    " Reset the listchars
+set listchars=tab:▸\ ,eol:¬         " A tab should display as "▸"
+set listchars+=trail:.              " Show trailing spaces as dots
+set listchars+=extends:>            " The character to show in the last
+                                    " column when wrap is off and the line
+                                    " continues beyond the right of the
+                                    " screen
+set listchars+=precedes:<           " The character to show in the last
+                                    " column when wrap is off and the line
+                                    " continues beyond the left of the
+                                    " screen
 
 "-- SEARCHING ----------------------------------------------------------------
 
-set hlsearch            " Highlight matches
-set incsearch           " Incremental searching
-set ignorecase          " Searches are case insensitive...
-set smartcase           " ... unless they contain at least one capital letter
+set hlsearch                        " Highlight matches
+set incsearch                       " Incremental searching
+set ignorecase                      " Searches are case insensitive...
+set smartcase                       " ... unless they contain at least one
+                                    " capital letter
 
 "-- FILE MANAGEMENT ---------------------------------------------------------
 "
 "-- NERDTree ----------------------------------------------------------------
 " Automatically load NERDTree if Vim is opened without any file specified.
 if has("autocmd")
-    autocmd StdinReadPre * let s:std_in=1
-    autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+  autocmd StdinReadPre * let s:std_in=1
+  autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 endif
 
-let NERDTreeQuitOnOpen = 1      " Automatically close after opening a file
-let NERDTreeDirArrows = 1       " Show pretty arrows on directories
-let NERDTreeShowHidden = 1      " Show hidden files
+let NERDTreeQuitOnOpen = 1          " Automatically close after opening a file
+let NERDTreeDirArrows = 1           " Show pretty arrows on directories
+let NERDTreeShowHidden = 1          " Show hidden files
 
 "-- BACKUP AND SWAP FILES ---------------------------------------------------
 "
-set backupdir^=~/.vim/_backup// " Where to put backup files.
-set directory^=~/.vim/_temp//   " Where to put swap files.
+set backupdir^=~/.vim/_backup//     " Where to put backup files.
+set directory^=~/.vim/_temp//       " Where to put swap files.
 
 
 " -- PROGRAMMING FILETYPE SPECIFIC ------------------------------------------
 
-au FileType ruby setlocal sts=2 sw=2	" Enable width of 2 for ruby tabbing
+au FileType ruby setlocal sts=2 sw=2    " Enable width of 2 for ruby tabbing
 
 " Load indentation rules and plugins according to the detected filetype.
 
 if has("autocmd")
-    filetype plugin indent on
+  filetype plugin indent on
 endif
 
 " Reread configuration of Vim if .vimrc is saved
 augroup VimConfig
-    au!
-    autocmd BufWritePost ~/.vimrc       so ~/.vimrc
-    autocmd BufWritePost vimrc          so ~/.vimrc
+  au!
+  autocmd BufWritePost ~/.vimrc       so ~/.vimrc
+  autocmd BufWritePost vimrc          so ~/.vimrc
 augroup END
 
 " -- MAIL SETTINGS ----------------------------------------------------------
 if has('autocmd')"
-    autocmd FileType mail   setl noai
-    autocmd FileType mail   setl nojs
-    autocmd FileType mail   setl nosmartindent
-    autocmd FileType mail   setl ts=14
-    autocmd FileType mail   setl tw=72
-    autocmd FileType mail   setl shiftwidth=2
-    autocmd FileType mail   setl expandtab
+  autocmd FileType mail   setl noai
+  autocmd FileType mail   setl nojs
+  autocmd FileType mail   setl nosmartindent
+  autocmd FileType mail   setl ts=14
+  autocmd FileType mail   setl tw=72
+  autocmd FileType mail   setl shiftwidth=2
+  autocmd FileType mail   setl expandtab
 endif
 
 
