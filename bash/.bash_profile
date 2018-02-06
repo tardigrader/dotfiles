@@ -46,5 +46,6 @@ export EDITOR="vim"
 # Make ls, du, df etc report sizes in a human-readable way by default.
 export BLOCKSIZE=human-readable
 
+
 # When starting w3m without URL
 export WWW_HOME="https://duckduckgo.com"
