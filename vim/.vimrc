@@ -2,7 +2,10 @@ if v:progname == 'vi'
   set noloadplugins
 endif
 
-filetype off                  " Required
+filetype on
+filetype plugin on
+packadd! matchit
+set omnifunc=syntaxcomplete#Complete
 
 "-- PLUGINS ------------------------------------------------------------------
 "
@@ -19,54 +22,84 @@ call plug#begin('~/.vim/plugged')
 " Make sure you use single quotes
 "
 Plug 'scrooloose/nerdtree'              " File manager
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'junegunn/goyo.vim'                " Distraction-free writing
 Plug 'jlanzarotta/bufexplorer'          " Buffers
 Plug 'vim-pandoc/vim-pandoc'            " Pandoc integration
 Plug 'vim-syntastic/syntastic'          " Syntax checking
 Plug 'python-mode/python-mode'          " Python IDE for Vim
 Plug 'tpope/vim-fugitive'               " Git wrapper
+"Plug 'mhinz/vim-signify'                " Git, Mercurial, Subversion, cvs etc
 Plug 'dracula/vim'                      " Color theme
+Plug 'andbar-ru/vim-unicon'             " Color theme
+Plug 'morhetz/gruvbox'                  " Color theme
 
 " Initialize plugin system
 call plug#end()
 "
 "-- KEY MAPPINGS -------------------------------------------------------------
-"
-map <Leader>n :NERDTreeToggle<CR>
-map <F2> :NERDTreeToggle<CR>
-map <Leader>v <C-w>v-<C-w>l         " Vertical split with \v
-map <Leader>h <C-w>s-<C-w>l         " Horizontal split with \h
-nmap <Leader>l :set list!<CR>       " Toggle showing invisible characters on/off
-map <Leader>/ :set nohlsearch!<CR>  " Toggle highlightning of search results
-map <Leader>1 :set number!<CR>
-map <F3> :set number!<CR>
 
-" Emacs-like stuff
-imap <C-g> <Esc>                    " In insert mode only
-map < gg                          " Alt-<   Top of file, like in Emacs
-map > G                           " Alt->   Bottom of file, like in Emacs.
-map <C-x><C-f> :NERDTreeFind<CR>    " Open file
-imap <C-x><C-F> <ESC>:NERDTreeFind<CR>   " Open file in insert mode
-map <C-l> zz                        " Center current line in the middle
-imap <C-l> <ESC>zzi                 " Center current line in the middle, ins mode
-map q gql                         " Rewrap text
-vmap q gql                        " Rewrap text in visual mode
-imap q <Esc>gqli                  " Rewrap text in insert mode
+nmap <Leader>n :NERDTreeToggle<CR>
+nmap <F2> :NERDTreeToggle<CR>
+
+" Vertical split with \v
+nmap <Leader>v <C-w>v-<C-w>l
+
+" Horizontal split with \h
+nmap <Leader>h <C-w>s-<C-w>l            
+
+" Toggle showing invisible characters on/off
+nmap <Leader>l :set list!<CR>
+
+" Toggle highlightning of search results
+nmap <Leader>/ :set nohlsearch!<CR>
+
+" Toggle line numbering
+nmap <Leader>n :set number!<CR>
+nmap <F3> :set number!<CR>
+
+" De-highlight matches and redraw screen
+nnoremap <leader><C-l> 
+      \:nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr>zz<c-l>
+
+"-- Emacs-like stuff---------------------------------------------------------
+
+" Ctrl-g aborts current action
+imap <C-g> <Esc>
+
+" Alt-<   Top of file, Alt-> Bottom, like in Emacs
+nmap < gg
+nmap > G
+
+" Open file 
+map <C-x><C-f> :NERDTreeFind<CR>
+"imap <C-x><C-f> <ESC>:NERDTreeFind<CR> " CONFLICTS WITH VIMS COMPLETION!
+
+" Rewrap text
+map q gql
+vmap q gql
+imap q <Esc>gqli
 
 "map <C-x><C-s> :w<CR><C-q><CR>      " Save file. Not possible because of XOFF?
 
 " Get RID OFF F0 kelp key! Make it an ESC key instead.
 inoremap <F1> <ESC>
-noremap <F1> <ESC>
-noremap <F1> <ESC>
+noremap  <F1> <ESC>
+noremap  <F1> <ESC>
 
 
-"-- THEME -------------------------------------------------------------------
+"-- THEME AND VISUALS--------------------------------------------------------
 
-colorscheme dracula
+if $TERM ==# "xterm-256color"
+    set termguicolors
+endif
+
+let g:gruvbox_italic=1
+let g:gruvbox_number_column="bg1"
+colorscheme gruvbox
 set background=light
 syntax enable           " Turn on syntax highlighting allowing local overrides
-
+set cursorline          " Highlight the line the cursor is on
 
 "-- Statusbar---------------------------------------------------------------
 if has("statusline") && !&cp
@@ -116,6 +149,13 @@ set listchars+=precedes:<           " The character to show in the last
 
 set hlsearch                        " Highlight matches
 set incsearch                       " Incremental searching
+
+" Searches are insensitive BUT it messes with omni complete in html files.
+" The remedy below sets noignorecase on html/css/etc.
+augroup ignorecase
+    autocmd! BufEnter *.css,*.html,*.htm,*scss :set noignorecase 
+augroup END
+
 set ignorecase                      " Searches are case insensitive...
 set smartcase                       " ... unless they contain at least one
                                     " capital letter
@@ -123,10 +163,25 @@ set smartcase                       " ... unless they contain at least one
 "-- FILE MANAGEMENT ---------------------------------------------------------
 "
 "-- NERDTree ----------------------------------------------------------------
+
 " Automatically load NERDTree if Vim is opened without any file specified.
 if has("autocmd")
   autocmd StdinReadPre * let s:std_in=1
   autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+endif
+
+" Open Vim with NERDTree open if I happen to edit a directory.
+if has("autocmd")
+    autocmd StdinReadPre * let s:std_in=1
+    autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) 
+          \&& !exists("s:std_in") | wincmd p | ene | 
+          \exe 'NERDTree' argv()[0] | endif
+endif
+
+" Let me close Vim even if the only window left is NERDTree.
+if has("autocmd")
+    autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") 
+          \&& b:NERDTree.isTabTree()) | q | endif
 endif
 
 let NERDTreeQuitOnOpen = 1          " Automatically close after opening a file
@@ -134,9 +189,22 @@ let NERDTreeDirArrows = 1           " Show pretty arrows on directories
 let NERDTreeShowHidden = 1          " Show hidden files
 
 "-- BACKUP AND SWAP FILES ---------------------------------------------------
-"
+
+" Create backup directory if it doesn't exist.
+if !isdirectory($HOME.'/.vim/_backup') && exists('*mkdir')
+  call mkdir($HOME.'/.vim/_backup')
+endif
+
+" Create temp directory if it doesn't exist.
+if !isdirectory($HOME.'/.vim/_temp') && exists('*mkdir')
+  call mkdir($HOME.'/.vim/_temp')
+endif
+
+set backup                          " Enable backups.
 set backupdir^=~/.vim/_backup//     " Where to put backup files.
 set directory^=~/.vim/_temp//       " Where to put swap files.
+set undofile                        " Save the undo tree
+set undodir=~/.vim/_backup/         " ...in this directory. 
 
 
 " -- PROGRAMMING FILETYPE SPECIFIC ------------------------------------------
