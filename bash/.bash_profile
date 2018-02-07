@@ -41,11 +41,15 @@ export LESS_TERMCAP_so=$'\E[38;5;246m'    # begin standout-mode - info box
 export LESS_TERMCAP_ue=$'\E[0m'           # end underline
 export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 
-export EDITOR="vim"
-
 # Make ls, du, df etc report sizes in a human-readable way by default.
 export BLOCKSIZE=human-readable
 
+# Export a proper editor.
+if   command -v vim   1>/dev/null; then export EDITOR='vim'
+elif command -v vi    1>/dev/null; then export EDITOR='vi'
+elif command -v emacs 1>/dev/null; then export EDITOR='emacs -nw'
+else echo 'Install a proper editor.'
+fi
 
 # When starting w3m without URL
 export WWW_HOME="https://duckduckgo.com"
