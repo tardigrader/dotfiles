@@ -3,7 +3,7 @@
 ### -------------- ###
 
 # Source localized aliases if available
-if [ -x .~/.bash.d/bash_aliases.this ]; then
+if [ -x ~/.bash.d/bash_aliases.this ]; then
     source ~/.bash.d/bash_aliases.this
 fi
 
