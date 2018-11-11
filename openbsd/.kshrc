@@ -195,3 +195,7 @@ function del_path {
 
 # Bind  to clear the screen like in linux
 bind -m '^L'=clear'^J'
+
+export HISTFILE=~/.history
+export HISTFILEZISE=10000
+export HISTSIZE=10000
