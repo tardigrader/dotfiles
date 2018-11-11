@@ -22,7 +22,7 @@ alias whatsmyip='w3m -dump checkip.dyndns.org'
 ### Misc aliases ###
 
 alias fingerprints='ssh-keygen -lv -f ~/.ssh/known_hosts'
-alias free='echo `sysctl hw.physmem` / (1024 * 1024)'
+alias free='echo "`sysctl -n hw.physmem` / (1024 * 1024)" | bc'
 alias pdf='apvlv'
 alias quitter='identicurse'
 alias vi='vim'
