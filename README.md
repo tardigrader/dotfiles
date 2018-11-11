@@ -1,13 +1,3 @@
-# D . o . T . F . i . L . E . S
+# Dotfiles
 
 Customizations I need to remember.
-
-## Bash
--
--
-
-## Zsh
--
--
-
-## BSD-specific
